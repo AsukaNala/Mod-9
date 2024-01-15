@@ -13,6 +13,21 @@ const getUsers = (res) => {
     });
 };
 
+//find single user with id
+const getUser = (req, res) => {
+  Models.User.findOne({ where: { id: req.params.id } })
+    .then((data) => {
+      if (!data) {
+        res.sendStatus(404);
+      }
+      res.send({ result: 200, data: data });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send({ result: 500, error: err.message });
+    });
+};
+
 //uses JSON from request bosy to  create new user in DB
 const createUser = (data, res) => {
   Models.User.create(data)
@@ -27,7 +42,13 @@ const createUser = (data, res) => {
 
 const updateUser = (req, res) => {
   Models.User.update(req.body, { where: { id: req.params.id } })
-    .then((data) => res.send({ result: 200, data: data }))
+    .then((data) => {
+      if (!data) {
+        res.sendStatus(404);
+      }
+
+      res.send({ result: 200, data: data });
+    })
     .catch((err) => {
       console.log(err);
       res.send({ result: 500, error: err.message });
@@ -37,6 +58,9 @@ const updateUser = (req, res) => {
 const deleteUser = (req, res) => {
   Models.User.destroy({ where: { id: req.params.id } })
     .then((data) => {
+      if (!data) {
+        res.sendStatus(404);
+      }
       res.send({ result: 200, data: data });
     })
     .catch((err) => {
@@ -47,6 +71,7 @@ const deleteUser = (req, res) => {
 
 module.exports = {
   getUsers,
+  getUser,
   createUser,
   updateUser,
   deleteUser,

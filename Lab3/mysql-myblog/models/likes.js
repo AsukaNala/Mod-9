@@ -13,6 +13,14 @@ Like.init(
       autoIncrement: true,
       primaryKey: true,
     },
+    postId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   },
   {
     sequelize: sequelizeInstance, // We pass the connection instance here

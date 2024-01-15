@@ -5,7 +5,7 @@ const sequelizeInstance = dbConnect.Sequelize;
 
 class Post extends Model {} //define User class inheriting  from Sequelize Model --> User class inherit the function as database model
 
-//Sequelize will create this table if it doesn't exsit on startup
+//Sequelize will create this table if it doesn't exist on startup
 Post.init(
   {
     id: {
@@ -28,6 +28,10 @@ Post.init(
       type: DataTypes.STRING,
       allowNull: true,
       required: true,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
   },
   {

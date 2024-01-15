@@ -6,21 +6,66 @@ const Comment = require("./comments");
 const Like = require("./likes");
 
 async function init() {
-  User.hasMany(Post);
-  Post.belongsTo(User);
+  //create relationship between models
 
-  User.hasMany(Comment);
-  Comment.belongsTo(User);
+  User.hasMany(Post, {
+    foreignKey: {
+      name: "userId",
+      allowNull: false,
+    },
+  });
+  Post.belongsTo(User, {
+    foreignKey: "userId",
+    allowNull: false,
+  });
 
-  User.hasMany(Like);
-  Like.belongsTo(User);
+  User.hasMany(Comment, {
+    foreignKey: {
+      name: "userId",
+      allowNull: false,
+    },
+  });
+  Comment.belongsTo(User, {
+    foreignKey: {
+      name: "userId",
+      allowNull: false,
+    },
+  });
 
-  Post.hasMany(Comment);
-  Comment.belongsTo(Post);
+  User.hasMany(Like, {
+    foreignKey: {
+      name: "userId",
+      allowNull: false,
+    },
+  });
+  Like.belongsTo(User, {
+    foreignKey: {
+      name: "userId",
+      allowNull: false,
+    },
+  });
 
-  Post.hasMany(Like);
-  Like.belongsTo(Post);
-  // these create foreign key automatically in MySQL
+  Post.hasMany(Comment, {
+    foreignKey: {
+      name: "postId",
+      allowNull: false,
+    },
+  });
+  Comment.belongsTo(Post, {
+    foreignKey: {
+      name: "postId",
+      allowNull: false,
+    },
+  });
+
+  Post.hasMany(Like, {
+    foreignKey: "postId",
+    allowNull: false,
+  });
+  Like.belongsTo(Post, {
+    foreignKey: "postId",
+    allowNull: false,
+  });
 
   await User.sync();
   await Post.sync();
@@ -36,7 +81,3 @@ module.exports = {
   Comment,
   Like,
 };
-
-//Thought.belongsTo(Person, { constraints: true, foreignKeyConstraint:true  } );Person.hasMany(Thought)
-
-//Article.belongsTo(User, {    as: "Author",     onDelete: 'CASCADE',     foreignKey: { name:'author_id', allowNull: false }});
